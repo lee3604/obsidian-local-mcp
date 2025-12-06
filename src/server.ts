@@ -18,7 +18,8 @@ function isTFile(file: TAbstractFile | null): file is TFile {
     // Runtime check
     if (file instanceof TFile) return true;
     // Test mock check (duck typing)
-    return (file as any).extension !== undefined && (file as any).stat !== undefined;
+    const fileObj = file as unknown as { extension?: string; stat?: unknown };
+    return fileObj.extension !== undefined && fileObj.stat !== undefined;
 }
 
 function isPathAllowed(path: string, allowedFolders: string[]): boolean {

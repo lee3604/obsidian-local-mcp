@@ -65,7 +65,7 @@ export class ObsidianMcpSettingTab extends PluginSettingTab {
                             if (this.plugin.mcp?.url) {
                                 await navigator.clipboard.writeText(this.plugin.mcp.url);
                                 // @ts-ignore
-                                new Notice("URL Copied to clipboard");
+                                new Notice("URL copied to clipboard");
                             }
                         })
                 );
@@ -83,8 +83,6 @@ export class ObsidianMcpSettingTab extends PluginSettingTab {
                         if (!isNaN(port) && port >= 0) {
                             this.plugin.settings.port = port;
                             await this.plugin.saveSettings();
-                            // Refresh UI to show updated URL if server restarts (manual restart required for now, but UI should update config helper)
-                            this.display();
                         }
                     })
             );
@@ -137,7 +135,7 @@ export class ObsidianMcpSettingTab extends PluginSettingTab {
             );
 
         new Setting(containerEl)
-            .setName("Allowed Folders (Optional)")
+            .setName("Allowed folders (optional)")
             .setDesc("If set, only files within these folders will be exposed. Leave empty to allow all. Enter one folder path per line (e.g., 'Projects/Active').")
             .addTextArea((text) =>
                 text

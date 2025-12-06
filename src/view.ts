@@ -1,4 +1,4 @@
-import { ItemView, WorkspaceLeaf } from "obsidian";
+import { ItemView, WorkspaceLeaf, requestUrl } from "obsidian";
 import ObsidianMcpPlugin from "./main";
 
 export const MCP_VIEW_TYPE = "mcp-server-dashboard";
@@ -23,10 +23,12 @@ export class McpServerView extends ItemView {
         this.render();
         // Register interval to update UI
         // this.registerInterval(window.setInterval(() => this.render(), 5000));
+        return Promise.resolve();
     }
 
     async onClose() {
         // Nothing to cleanup
+        return Promise.resolve();
     }
 
     render() {
@@ -67,7 +69,7 @@ export class McpServerView extends ItemView {
 
         // --- Configuration Helper ---
         if (isRunning && this.plugin.mcp) {
-            container.createEl("h3", { text: "Connection Helper" });
+            container.createEl("h3", { text: "Connection helper" });
             const helperDiv = container.createEl("div", { cls: "mcp-config-helper" });
 
             helperDiv.createEl("p", { text: "Add this configuration to your mcp.json file:" });
@@ -96,7 +98,7 @@ export class McpServerView extends ItemView {
         container.createEl("h3", { text: "Diagnostics" });
         const diagDiv = container.createEl("div", { cls: "mcp-config-helper" }); // Reuse style
 
-        const testBtn = diagDiv.createEl("button", { text: "Run Self-Test (Check Local Connection)" });
+        const testBtn = diagDiv.createEl("button", { text: "Run self-test (check local connection)" });
         const resultArea = diagDiv.createEl("div", { cls: "mcp-test-result" });
         resultArea.hide();
 
@@ -115,11 +117,12 @@ export class McpServerView extends ItemView {
             try {
                 // Perform a simple POST list_resources request
                 // We bypass the SSE handshake to test core logic availability
-                const response = await fetch(this.plugin.mcp.url, {
+                const response = await requestUrl({
+                    url: this.plugin.mcp.url,
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
-                        "Accept": "application/json" // Important!
+                        "Accept": "application/json"
                     },
                     body: JSON.stringify({
                         jsonrpc: "2.0",
@@ -129,8 +132,8 @@ export class McpServerView extends ItemView {
                     })
                 });
 
-                if (response.ok) {
-                    const data = await response.json();
+                if (response.status === 200) {
+                    const data = response.json;
                     if (data.result && data.result.resources) {
                         const count = data.result.resources.length;
                         resultArea.setText(`✅ Success! Found ${count} resources available.`);
@@ -140,7 +143,7 @@ export class McpServerView extends ItemView {
                         resultArea.addClass("mcp-test-error");
                     }
                 } else {
-                    resultArea.setText(`❌ HTTP Error: ${response.status} ${response.statusText}`);
+                    resultArea.setText(`❌ HTTP error: ${response.status}`);
                     resultArea.addClass("mcp-test-error");
                 }
             } catch (e) {
@@ -149,7 +152,7 @@ export class McpServerView extends ItemView {
             } finally {
                 resultArea.show();
                 testBtn.disabled = false;
-                testBtn.setText("Run Self-Test (Check Local Connection)");
+                testBtn.setText("Run self-test (check local connection)");
             }
         });
     }

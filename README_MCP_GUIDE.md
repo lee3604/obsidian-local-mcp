@@ -64,19 +64,6 @@ Antigravity (and Cursor's upcoming features) can also interact with local MCP se
 
 ---
 
-## ✨ New Features
-
-*   **Connection Helper:**
-    *   In the Dashboard, you can copy the exact configuration JSON needed for Claude or Antigravity with one click.
-*   **Self-Test / Diagnostics:**
-    *   Troubleshoot connection issues by running a local self-test directly from the Dashboard.
-*   **Activity Indicator:**
-    *   The "MCP: On" status bar item pulses (blinks) whenever an AI tool reads or accesses your notes, so you always know when your data is being used.
-*   **Folder Restriction:**
-    *   Limit AI access to specific folders (e.g., only "Public"). Configure this in the Obsidian Settings tab.
-
----
-
 ## 🛡️ Tips & Troubleshooting
 
 *   **Write Permissions:** By default, the plugin is in **Read-only** mode. If you want AI to write notes:
@@ -90,19 +77,6 @@ Antigravity (and Cursor's upcoming features) can also interact with local MCP se
 **옵시디언 볼트를 강력한 MCP(Model Context Protocol) 서버로 변신시키세요.**
 
 이 플러그인은 **Claude Desktop**, **Cursor**(Antigravity), 그리고 다른 AI 도구들이 여러분의 로컬 옵시디언 노트를 **직접 읽고, 검색하고, 작성**할 수 있게 해줍니다. 모든 통신은 로컬(localhost)에서 이루어지므로, 여러분의 데이터는 안전하게 보호됩니다.
-
----
-
-## ✨ 주요 기능 (New)
-
-*   **연결 도우미 (Connection Helper):**
-    *   Claude나 Antigravity 연동에 필요한 복잡한 설정 코드를 대시보드에서 클릭 한 번으로 복사할 수 있습니다.
-*   **자가 진단 (Self-Test):**
-    *   연결이 안 될 때, 이게 서버 문제인지 내 설정 문제인지 대시보드에서 바로 테스트해볼 수 있습니다.
-*   **활동 알림 (Activity Indicator):**
-    *   AI가 내 노트를 읽거나 검색할 때마다 우측 하단 상태 표시줄이 깜빡거립니다. 내 데이터가 사용되는 순간을 직관적으로 알 수 있습니다.
-*   **폴더 제한 (Folder Restriction):**
-    *   AI가 내 모든 노트를 보지 못하게 하려면, 특정 폴더(예: "공부")만 허용하도록 설정할 수 있습니다. 설정 탭에서 지정하세요.
 
 ---
 
