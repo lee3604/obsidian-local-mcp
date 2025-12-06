@@ -219,7 +219,8 @@ export async function startMcpServer(app: App, settings: ObsidianMcpSettings, on
 
     // StreamableHTTPServerTransport now takes an options object
     const transport = new StreamableHTTPServerTransport({
-        sessionIdGenerator: undefined
+        sessionIdGenerator: undefined,
+        enableJsonResponse: true
     });
 
     // Route all traffic to the transport
