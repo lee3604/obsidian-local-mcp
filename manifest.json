@@ -1,11 +1,11 @@
 {
-    "id": "obsidian-mcp-server",
-    "name": "Obsidian MCP Server",
+    "id": "obsidian-local-mcp",
+    "name": "Obsidian Local MCP",
     "version": "1.0.0",
     "minAppVersion": "1.5.0",
     "description": "Expose your Obsidian vault as a Model Context Protocol (MCP) server.",
-    "author": "Antigravity",
-    "authorUrl": "https://github.com/yourusername/obsidian-mcp-server",
-    "fundingUrl": "https://github.com/sponsors/yourusername",
+    "author": "Lee3604",
+    "authorUrl": "https://github.com/lee3604/obsidian-local-mcp",
+    "fundingUrl": "https://github.com/sponsors/lee3604",
     "isDesktopOnly": true
 }
