@@ -69,7 +69,7 @@ export default class ObsidianMcpPlugin extends Plugin {
 
     onunload() {
         if (this.mcp) {
-            stopMcpServer(this.mcp);
+            void stopMcpServer(this.mcp);
         }
     }
 

@@ -37705,9 +37705,11 @@ var McpServerView = class extends import_obsidian4.ItemView {
       toggleBtn.addClass("mod-warning");
     else
       toggleBtn.addClass("mod-cta");
-    toggleBtn.addEventListener("click", async () => {
-      await this.plugin.toggleServer();
-      this.render();
+    toggleBtn.addEventListener("click", () => {
+      void (async () => {
+        await this.plugin.toggleServer();
+        this.render();
+      })();
     });
     const refreshBtn = controlDiv.createEl("button", { text: "Refresh View" });
     refreshBtn.addEventListener("click", () => this.render());
@@ -37726,9 +37728,11 @@ var McpServerView = class extends import_obsidian4.ItemView {
       const configStr = JSON.stringify(config2, null, 2);
       const codeBlock = helperDiv.createEl("code", { cls: "mcp-code-block", text: configStr });
       const copyBtn = helperDiv.createEl("button", { text: "Copy Config to Clipboard" });
-      copyBtn.addEventListener("click", async () => {
-        await navigator.clipboard.writeText(configStr);
-        new Notice("Configuration copied!");
+      copyBtn.addEventListener("click", () => {
+        void (async () => {
+          await navigator.clipboard.writeText(configStr);
+          new Notice("Configuration copied!");
+        })();
       });
     }
     container.createEl("h3", { text: "Diagnostics" });
@@ -37736,52 +37740,54 @@ var McpServerView = class extends import_obsidian4.ItemView {
     const testBtn = diagDiv.createEl("button", { text: "Run self-test (check local connection)" });
     const resultArea = diagDiv.createEl("div", { cls: "mcp-test-result" });
     resultArea.hide();
-    testBtn.addEventListener("click", async () => {
-      if (!this.plugin.mcp) {
-        new Notice("Server is not running.");
-        return;
-      }
-      testBtn.disabled = true;
-      testBtn.setText("Testing...");
-      resultArea.hide();
-      resultArea.removeClass("mcp-test-success", "mcp-test-error");
-      try {
-        const response = await (0, import_obsidian4.requestUrl)({
-          url: this.plugin.mcp.url,
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-          },
-          body: JSON.stringify({
-            jsonrpc: "2.0",
-            method: "resources/list",
-            id: 1,
-            params: {}
-          })
-        });
-        if (response.status === 200) {
-          const data = response.json;
-          if (data.result && data.result.resources) {
-            const count = data.result.resources.length;
-            resultArea.setText(`\u2705 Success! Found ${count} resources available.`);
-            resultArea.addClass("mcp-test-success");
+    testBtn.addEventListener("click", () => {
+      void (async () => {
+        if (!this.plugin.mcp) {
+          new Notice("Server is not running.");
+          return;
+        }
+        testBtn.disabled = true;
+        testBtn.setText("Testing...");
+        resultArea.hide();
+        resultArea.removeClass("mcp-test-success", "mcp-test-error");
+        try {
+          const response = await (0, import_obsidian4.requestUrl)({
+            url: this.plugin.mcp.url,
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Accept": "application/json"
+            },
+            body: JSON.stringify({
+              jsonrpc: "2.0",
+              method: "resources/list",
+              id: 1,
+              params: {}
+            })
+          });
+          if (response.status === 200) {
+            const data = response.json;
+            if (data.result && data.result.resources) {
+              const count = data.result.resources.length;
+              resultArea.setText(`\u2705 Success! Found ${count} resources available.`);
+              resultArea.addClass("mcp-test-success");
+            } else {
+              resultArea.setText(`\u26A0\uFE0F Connected, but unexpected response format.`);
+              resultArea.addClass("mcp-test-error");
+            }
           } else {
-            resultArea.setText(`\u26A0\uFE0F Connected, but unexpected response format.`);
+            resultArea.setText(`\u274C HTTP error: ${response.status}`);
             resultArea.addClass("mcp-test-error");
           }
-        } else {
-          resultArea.setText(`\u274C HTTP error: ${response.status}`);
+        } catch (e) {
+          resultArea.setText(`\u274C Connection failed: ${e.message}`);
           resultArea.addClass("mcp-test-error");
+        } finally {
+          resultArea.show();
+          testBtn.disabled = false;
+          testBtn.setText("Run self-test (check local connection)");
         }
-      } catch (e) {
-        resultArea.setText(`\u274C Connection Failed: ${e.message}`);
-        resultArea.addClass("mcp-test-error");
-      } finally {
-        resultArea.show();
-        testBtn.disabled = false;
-        testBtn.setText("Run self-test (check local connection)");
-      }
+      })();
     });
   }
 };
@@ -37835,7 +37841,7 @@ var ObsidianMcpPlugin = class extends import_obsidian5.Plugin {
   }
   onunload() {
     if (this.mcp) {
-      stopMcpServer(this.mcp);
+      void stopMcpServer(this.mcp);
     }
   }
   async loadSettings() {

@@ -59,9 +59,11 @@ export class McpServerView extends ItemView {
         if (isRunning) toggleBtn.addClass("mod-warning");
         else toggleBtn.addClass("mod-cta");
 
-        toggleBtn.addEventListener("click", async () => {
-            await this.plugin.toggleServer();
-            this.render();
+        toggleBtn.addEventListener("click", () => {
+            void (async () => {
+                await this.plugin.toggleServer();
+                this.render();
+            })();
         });
 
         const refreshBtn = controlDiv.createEl("button", { text: "Refresh View" });
@@ -87,10 +89,12 @@ export class McpServerView extends ItemView {
             const codeBlock = helperDiv.createEl("code", { cls: "mcp-code-block", text: configStr });
 
             const copyBtn = helperDiv.createEl("button", { text: "Copy Config to Clipboard" });
-            copyBtn.addEventListener("click", async () => {
-                await navigator.clipboard.writeText(configStr);
-                // @ts-ignore
-                new Notice("Configuration copied!");
+            copyBtn.addEventListener("click", () => {
+                void (async () => {
+                    await navigator.clipboard.writeText(configStr);
+                    // @ts-ignore
+                    new Notice("Configuration copied!");
+                })();
             });
         }
 
@@ -102,58 +106,60 @@ export class McpServerView extends ItemView {
         const resultArea = diagDiv.createEl("div", { cls: "mcp-test-result" });
         resultArea.hide();
 
-        testBtn.addEventListener("click", async () => {
-            if (!this.plugin.mcp) {
-                // @ts-ignore
-                new Notice("Server is not running.");
-                return;
-            }
+        testBtn.addEventListener("click", () => {
+            void (async () => {
+                if (!this.plugin.mcp) {
+                    // @ts-ignore
+                    new Notice("Server is not running.");
+                    return;
+                }
 
-            testBtn.disabled = true;
-            testBtn.setText("Testing...");
-            resultArea.hide();
-            resultArea.removeClass("mcp-test-success", "mcp-test-error");
+                testBtn.disabled = true;
+                testBtn.setText("Testing...");
+                resultArea.hide();
+                resultArea.removeClass("mcp-test-success", "mcp-test-error");
 
-            try {
-                // Perform a simple POST list_resources request
-                // We bypass the SSE handshake to test core logic availability
-                const response = await requestUrl({
-                    url: this.plugin.mcp.url,
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Accept": "application/json"
-                    },
-                    body: JSON.stringify({
-                        jsonrpc: "2.0",
-                        method: "resources/list",
-                        id: 1,
-                        params: {}
-                    })
-                });
+                try {
+                    // Perform a simple POST list_resources request
+                    // We bypass the SSE handshake to test core logic availability
+                    const response = await requestUrl({
+                        url: this.plugin.mcp.url,
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Accept": "application/json"
+                        },
+                        body: JSON.stringify({
+                            jsonrpc: "2.0",
+                            method: "resources/list",
+                            id: 1,
+                            params: {}
+                        })
+                    });
 
-                if (response.status === 200) {
-                    const data = response.json;
-                    if (data.result && data.result.resources) {
-                        const count = data.result.resources.length;
-                        resultArea.setText(`✅ Success! Found ${count} resources available.`);
-                        resultArea.addClass("mcp-test-success");
+                    if (response.status === 200) {
+                        const data = response.json;
+                        if (data.result && data.result.resources) {
+                            const count = data.result.resources.length;
+                            resultArea.setText(`✅ Success! Found ${count} resources available.`);
+                            resultArea.addClass("mcp-test-success");
+                        } else {
+                            resultArea.setText(`⚠️ Connected, but unexpected response format.`);
+                            resultArea.addClass("mcp-test-error");
+                        }
                     } else {
-                        resultArea.setText(`⚠️ Connected, but unexpected response format.`);
+                        resultArea.setText(`❌ HTTP error: ${response.status}`);
                         resultArea.addClass("mcp-test-error");
                     }
-                } else {
-                    resultArea.setText(`❌ HTTP error: ${response.status}`);
+                } catch (e) {
+                    resultArea.setText(`❌ Connection failed: ${(e as Error).message}`);
                     resultArea.addClass("mcp-test-error");
+                } finally {
+                    resultArea.show();
+                    testBtn.disabled = false;
+                    testBtn.setText("Run self-test (check local connection)");
                 }
-            } catch (e) {
-                resultArea.setText(`❌ Connection Failed: ${e.message}`);
-                resultArea.addClass("mcp-test-error");
-            } finally {
-                resultArea.show();
-                testBtn.disabled = false;
-                testBtn.setText("Run self-test (check local connection)");
-            }
+            })();
         });
     }
 }
