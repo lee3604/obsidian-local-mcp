@@ -228,8 +228,9 @@ export async function startMcpServer(app: App, settings: ObsidianMcpSettings, on
     // Route all traffic to the transport
     // The transport handles routing internally (GET for SSE, POST for messages) based on request method
     // Route all traffic to the transport
-    // The transport handles routing internally (GET for SSE, POST for messages) based on request method
-    expressApp.all("/(.*)", async (req, res) => {
+    // We use .use() without a path to match ALL requests regardless of path or method.
+    // This bypasses the 'path-to-regexp' parsing entirely, preventing "Missing parameter name" errors.
+    expressApp.use(async (req, res) => {
         await transport.handleRequest(req, res);
     });
 
