@@ -1,0 +1,35 @@
+# Node
+node_modules/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build
+main.js
+*.js.map
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Obsidian
+data.json
+
+# Test files
+test_*.js
+*_test.js
+simple_post_client.js
+summarize_note.js
+manual_mcp_client.js
+find_longest_note.js
+mcp_write_read_test.js
+*.log
+summary.txt
