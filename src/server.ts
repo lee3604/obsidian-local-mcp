@@ -48,7 +48,7 @@ export async function startMcpServer(app: App, settings: ObsidianMcpSettings, on
     // --- Resources ---
     server.setRequestHandler(
         ListResourcesRequestSchema,
-        async () => {
+        () => {
             onActivity?.();
             const files = app.vault.getMarkdownFiles();
             const allowedFiles = files.filter(f => isPathAllowed(f.path, settings.exposedFolders));
@@ -95,7 +95,7 @@ export async function startMcpServer(app: App, settings: ObsidianMcpSettings, on
     // --- Tools ---
     server.setRequestHandler(
         ListToolsRequestSchema,
-        async () => {
+        () => {
             // Activity on tool listing is maybe too noisy? Let's include it for now.
             // onActivity?.(); 
             return {
