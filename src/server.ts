@@ -227,7 +227,9 @@ export async function startMcpServer(app: App, settings: ObsidianMcpSettings, on
     // The transport handles routing internally (GET for SSE, POST for messages) based on request method
     // Route all traffic to the transport
     // The transport handles routing internally (GET for SSE, POST for messages) based on request method
-    expressApp.all("*", async (req, res) => {
+    // Route all traffic to the transport
+    // The transport handles routing internally (GET for SSE, POST for messages) based on request method
+    expressApp.all("/(.*)", async (req, res) => {
         await transport.handleRequest(req, res);
     });
 
