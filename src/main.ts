@@ -27,14 +27,14 @@ export default class ObsidianMcpPlugin extends Plugin {
         this.updateStatusBar();
 
         // Ribbon Icon -> Open Dashboard
-        this.addRibbonIcon('server', 'Obsidian MCP Server', async () => {
+        this.addRibbonIcon('server', 'Obsidian MCP server', async () => {
             await this.activateView();
         });
 
         // Command: Restart Server
         this.addCommand({
             id: 'restart-mcp-server',
-            name: 'Restart MCP Server',
+            name: 'Restart MCP server',
             callback: async () => {
                 await this.restartServer();
             }
@@ -43,7 +43,7 @@ export default class ObsidianMcpPlugin extends Plugin {
         // Command: Toggle Server
         this.addCommand({
             id: 'toggle-mcp-server',
-            name: 'Toggle MCP Server',
+            name: 'Toggle MCP server',
             callback: async () => {
                 await this.toggleServer();
             }
@@ -52,7 +52,7 @@ export default class ObsidianMcpPlugin extends Plugin {
         // Command: Open Dashboard
         this.addCommand({
             id: 'open-mcp-dashboard',
-            name: 'Open Dashboard',
+            name: 'Open dashboard',
             callback: async () => {
                 await this.activateView();
             }
@@ -85,13 +85,13 @@ export default class ObsidianMcpPlugin extends Plugin {
         if (this.mcp) {
             await stopMcpServer(this.mcp);
             this.mcp = undefined;
-            new Notice("MCP Server stopped");
+            new Notice("MCP server stopped");
         } else {
             try {
                 this.mcp = await startMcpServer(this.app, this.settings, () => this.flashStatusBar());
-                new Notice(`MCP Server started: ${this.mcp.url}`);
+                new Notice(`MCP server started: ${this.mcp.url}`);
             } catch (e) {
-                new Notice(`Failed to start MCP Server: ${e}`);
+                new Notice(`Failed to start MCP server: ${e}`);
                 console.error(e);
             }
         }
@@ -105,9 +105,9 @@ export default class ObsidianMcpPlugin extends Plugin {
         }
         try {
             this.mcp = await startMcpServer(this.app, this.settings, () => this.flashStatusBar());
-            new Notice(`MCP Server started: ${this.mcp.url}`);
+            new Notice(`MCP server started: ${this.mcp.url}`);
         } catch (e) {
-            new Notice(`Failed to start MCP Server: ${e}`);
+            new Notice(`Failed to start MCP server: ${e}`);
             console.error(e);
         }
         this.updateStatusBar();
@@ -129,12 +129,12 @@ export default class ObsidianMcpPlugin extends Plugin {
             this.statusBarItem.setText(`MCP: On`);
             this.statusBarItem.removeClass("mcp-status-off");
             this.statusBarItem.addClass("mcp-status-on");
-            this.statusBarItem.setAttr("title", `MCP Server running at ${this.mcp.url}`);
+            this.statusBarItem.setAttr("title", `MCP server running at ${this.mcp.url}`);
         } else {
             this.statusBarItem.setText(`MCP: Off`);
             this.statusBarItem.removeClass("mcp-status-on");
             this.statusBarItem.addClass("mcp-status-off");
-            this.statusBarItem.setAttr("title", "MCP Server is stopped");
+            this.statusBarItem.setAttr("title", "MCP server is stopped");
         }
     }
 

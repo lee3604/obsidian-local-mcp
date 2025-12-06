@@ -100,7 +100,7 @@ export class ObsidianMcpSettingTab extends PluginSettingTab {
             );
 
         new Setting(containerEl)
-            .setName("Authentication Token")
+            .setName("Authentication token")
             .setDesc("Token for connecting to the MCP server. Keep this secret.")
             .addText((text) =>
                 text
@@ -119,7 +119,7 @@ export class ObsidianMcpSettingTab extends PluginSettingTab {
             );
 
         new Setting(containerEl)
-            .setName("Write Mode")
+            .setName("Write mode")
             .setDesc("Control how write operations are handled.")
             .addDropdown((dropdown) =>
                 dropdown

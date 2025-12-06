@@ -42,7 +42,7 @@ export class McpServerView extends ItemView {
         const isRunning = !!this.plugin.mcp;
 
         statusDiv.createEl("p", {
-            text: isRunning ? "✅ Server is Running" : "🔴 Server is Stopped",
+            text: isRunning ? "✅ Server is running" : "🔴 Server is stopped",
             cls: isRunning ? "mcp-running" : "mcp-stopped",
             attr: { style: `color: ${isRunning ? 'var(--text-success)' : 'var(--text-error)'}; font-weight: bold;` }
         });
@@ -54,7 +54,7 @@ export class McpServerView extends ItemView {
         const controlDiv = container.createEl("div", { cls: "mcp-controls" });
 
         const toggleBtn = controlDiv.createEl("button", {
-            text: isRunning ? "Stop Server" : "Start Server"
+            text: isRunning ? "Stop server" : "Start server"
         });
         if (isRunning) toggleBtn.addClass("mod-warning");
         else toggleBtn.addClass("mod-cta");
@@ -66,7 +66,7 @@ export class McpServerView extends ItemView {
             })();
         });
 
-        const refreshBtn = controlDiv.createEl("button", { text: "Refresh View" });
+        const refreshBtn = controlDiv.createEl("button", { text: "Refresh view" });
         refreshBtn.addEventListener("click", () => this.render());
 
         // --- Configuration Helper ---
@@ -88,7 +88,7 @@ export class McpServerView extends ItemView {
 
             const codeBlock = helperDiv.createEl("code", { cls: "mcp-code-block", text: configStr });
 
-            const copyBtn = helperDiv.createEl("button", { text: "Copy Config to Clipboard" });
+            const copyBtn = helperDiv.createEl("button", { text: "Copy config to clipboard" });
             copyBtn.addEventListener("click", () => {
                 void (async () => {
                     await navigator.clipboard.writeText(configStr);
