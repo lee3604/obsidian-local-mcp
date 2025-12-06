@@ -16,26 +16,26 @@ export class McpServerView extends ItemView {
     }
 
     getDisplayText() {
-        return "MCP Server Dashboard";
+        return "MCP server dashboard";
     }
 
     async onOpen() {
         this.render();
         // Register interval to update UI
         // this.registerInterval(window.setInterval(() => this.render(), 5000));
-        return Promise.resolve();
+        await Promise.resolve();
     }
 
     async onClose() {
         // Nothing to cleanup
-        return Promise.resolve();
+        await Promise.resolve();
     }
 
     render() {
         const container = this.containerEl.children[1];
         container.empty();
 
-        container.createEl("h2", { text: "MCP Server Dashboard" });
+        container.createEl("h2", { text: "MCP server dashboard" });
 
         // --- Status Section ---
         const statusDiv = container.createEl("div", { cls: "mcp-status-container" });
