@@ -1,0 +1,50 @@
+# NodeJS
+node_modules/
+dist/
+coverage/
+
+# Obsidian
+.obsidian/
+main.js
+manifest.json
+styles.css
+
+# System Files
+.DS_Store
+Thumbs.db
+*.log
+
+# Temp / Test files created during dev
+manual_mcp_client.js
+simple_post_client.js
+mcp_write_read_test.js
+summarize_note.js
+test_folder_restriction.js
+mcp_hello.md
+summary.txt
+test_error.log
+
+# Build output (sometimes manifest/main/styles are committed for obsidian plugins, 
+# but usually dist/ or build artifacts are ignored if you have a build process. 
+# For Obsidian plugins, specifically:
+# main.js, manifest.json, styles.css ARE usually committed if there's no releases workflow,
+# BUT since we are using esbuild to bundle, usually we commit the source (src/) and 
+# let the user build or download release.
+# HOWEVER, for personal backup or direct git-sync usage, people often commit main.js.
+# Let's assume standard "Source Code" repo practices:
+
+# Ignore build artifacts
+main.js
+styles.css
+manifest.json.tmp
+
+# But keep manifest.json as it is metadata
+!manifest.json
+
+# IDE
+.idea/
+.vscode/
+
+# Environment
+.env
+.env.local
